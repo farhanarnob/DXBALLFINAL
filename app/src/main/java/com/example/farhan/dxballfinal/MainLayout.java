@@ -24,12 +24,13 @@ public class MainLayout extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        ball.setRunnable(true);
-        ballThread.start();
+
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+        ball.setRunnable(true);
+        ballThread.start();
     }
 
     @Override
