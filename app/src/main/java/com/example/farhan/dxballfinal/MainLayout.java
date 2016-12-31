@@ -9,10 +9,12 @@ import android.view.SurfaceHolder;
  */
 
 public class MainLayout extends SurfaceView implements SurfaceHolder.Callback {
+    GameBar gameBar;
+    Ball ball;
+    Brick brick;
     public MainLayout(Context context) {
         super(context);
         getHolder().addCallback(this);
-
     }
 
     @Override
