@@ -1,10 +1,9 @@
 package com.example.farhan.dxballfinal;
 
 import android.app.Activity;
-        import android.content.Context;
-        import android.graphics.Canvas;
+import android.content.Context;
+import android.graphics.Canvas;
 
-import static android.R.attr.radius;
 
 /**
  * Created by ${farhanarnob} on ${06-Oct-16}.
@@ -12,14 +11,15 @@ import static android.R.attr.radius;
 
 public class BallPosition {
     GameApplication gameApplication;
-    float xBallPosition, yBallPosition, circleRadius,density, everyUpdateXChange,everyUpdateYChange , displayWidth,displayHeight;
+    float xBallPosition, yBallPosition, circleRadius, everyUpdateXChange, everyUpdateYChange, displayWidth, displayHeight, radius, density;
     boolean firstTime = true;
     public BallPosition(Context context){
         xBallPosition=250; yBallPosition=250;
         gameApplication = (GameApplication)((Activity) context).getApplication();
         density = context.getResources().getDisplayMetrics().density;
-        everyUpdateXChange = 3*density;
-        everyUpdateYChange = 3*density;
+        radius = 30 * density;
+        everyUpdateXChange = 5 * density;
+        everyUpdateYChange = 5 * density;
         circleRadius = 20*density;
     }
     public void drawBall(Canvas canvas){
