@@ -1,6 +1,8 @@
 package com.example.farhan.dxballfinal;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
@@ -9,17 +11,27 @@ import android.view.SurfaceHolder;
  */
 
 public class MainLayout extends SurfaceView implements SurfaceHolder.Callback {
-    GameBar gameBar;
-    Ball ball;
+
+    GamePlayThread gamePlayThread;
     Brick brick;
     Thread gameBarThread;
     Thread brickThread;
-    Thread ballThread;
+    GameApplication gameApplication;
+
+    Thread gamePlayThreadHolder;
     public MainLayout(Context context) {
         super(context);
         getHolder().addCallback(this);
-        ball = new Ball(getHolder(),this);
-        ballThread = new Thread(ball);
+        getHolder().setFormat(PixelFormat.TRANSLUCENT);
+
+        // initialization
+        gameApplication = (GameApplication)((Activity) context).getApplication();
+
+        // game thread for ball
+        gamePlayThread = new GamePlayThread(getHolder(),this);
+        gamePlayThreadHolder = new Thread(gamePlayThread);
+
+
     }
 
     @Override
@@ -29,17 +41,17 @@ public class MainLayout extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-        ball.setRunnable(true);
-        ballThread.start();
+        gamePlayThread.setRunnable(true);
+        gamePlayThreadHolder.start();
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         Boolean destroyBall=true;
-        ball.setRunnable(false);
+        gamePlayThread.setRunnable(false);
         while (destroyBall){
             try {
-                ballThread.join();
+                gamePlayThreadHolder.join();
                 destroyBall = false;
             } catch (InterruptedException e) {
                 e.printStackTrace();

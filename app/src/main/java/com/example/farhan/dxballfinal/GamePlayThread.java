@@ -1,38 +1,45 @@
 package com.example.farhan.dxballfinal;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.SurfaceHolder;
 
 /**
  * Created by ${farhanarnob} on ${06-Oct-16}.
  */
 
-public class Ball implements Runnable {
+public class GamePlayThread implements Runnable {
     private SurfaceHolder surfaceHolder;
     private MainLayout mainLayout;
-    Canvas ballCanvas;
+    GameBar gameBar;
+    Canvas gameCanvas;
     BallPosition ballPosition;
     private boolean ballPlay;
-    public Ball(SurfaceHolder surfaceHolder, MainLayout mainLayout){
+    public GamePlayThread(SurfaceHolder surfaceHolder, MainLayout mainLayout){
         this.surfaceHolder = surfaceHolder;
         this.mainLayout = mainLayout;
         ballPosition = new BallPosition(mainLayout.getContext());
+
+        //game bar
+        gameBar = new GameBar(mainLayout.getContext());
     }
     @Override
     public void run() {
         while(ballPlay){
             try{
-                ballCanvas = null;
+                gameCanvas = null;
                 synchronized (surfaceHolder){
-                    ballCanvas = surfaceHolder.lockCanvas();
-                    ballPosition.drawBall(ballCanvas);
+                    gameCanvas = surfaceHolder.lockCanvas();
+                    gameCanvas.drawColor(Color.WHITE);
+                    ballPosition.drawBall(gameCanvas);
+                    gameBar.drawBar(gameCanvas);
                 }
 
             }catch (Exception e){
                 e.printStackTrace();
             } finally {
-                if(ballCanvas!=null){
-                    surfaceHolder.unlockCanvasAndPost(ballCanvas);
+                if(gameCanvas!=null){
+                    surfaceHolder.unlockCanvasAndPost(gameCanvas);
                 }
             }
         }

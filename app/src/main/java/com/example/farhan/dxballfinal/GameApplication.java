@@ -9,7 +9,7 @@ import android.graphics.Paint;
  */
 
 public class GameApplication extends Application {
-    Paint redBrush;
+    private Paint redBrush;
 
     @Override
     public void onCreate() {
