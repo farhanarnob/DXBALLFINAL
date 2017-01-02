@@ -9,9 +9,13 @@ import android.graphics.Paint;
  */
 
 public class GameApplication extends Application {
+    GamePlayThread gamePlayThread;
+    GameBar gameBar;
+    BallPosition ballPosition;
     private Paint redBrush;
     private Paint blueBrush;
     private Paint blackBrush;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -35,5 +39,29 @@ public class GameApplication extends Application {
 
     public Paint getBlackBrush() {
         return blackBrush;
+    }
+
+    public GameBar getGameBar() {
+        return gameBar;
+    }
+
+    public void setGameBar(GameBar gameBar) {
+        this.gameBar = gameBar;
+    }
+
+    public GamePlayThread getGamePlayThread() {
+        return gamePlayThread;
+    }
+
+    public void setGamePlayThread(GamePlayThread gamePlayThread) {
+        this.gamePlayThread = gamePlayThread;
+    }
+
+    public BallPosition getBallPosition() {
+        return ballPosition;
+    }
+
+    public void setBallPosition(BallPosition ballPosition) {
+        this.ballPosition = ballPosition;
     }
 }

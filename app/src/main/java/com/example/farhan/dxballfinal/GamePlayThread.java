@@ -3,27 +3,28 @@ package com.example.farhan.dxballfinal;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 
 /**
  * Created by ${farhanarnob} on ${06-Oct-16}.
  */
 
-public class GamePlayThread implements Runnable {
-    GameBar gameBar;
-    Brick brick[];
-    Canvas gameCanvas;
-    BallPosition ballPosition;
-    float brickXPosition, brickYPosition;
-    GameApplication gameApplication;
-    int rowCount, columnCount, allBrickColumn, brickCount;
+public class GamePlayThread extends Thread {
+    private GameBar gameBar;
+    private Brick brick[];
+    private Canvas gameCanvas;
+    private BallPosition ballPosition;
+    private GameApplication gameApplication;
+    private int rowCount, columnCount, allBrickColumn, brickCount;
     private SurfaceHolder surfaceHolder;
     private MainLayout mainLayout;
     private boolean ballPlay;
 
 
-    public GamePlayThread(SurfaceHolder surfaceHolder, MainLayout mainLayout){
+    public GamePlayThread(SurfaceHolder surfaceHolder, final MainLayout mainLayout) {
         this.surfaceHolder = surfaceHolder;
         this.mainLayout = mainLayout;
         ballPosition = new BallPosition(mainLayout.getContext());
@@ -35,13 +36,22 @@ public class GamePlayThread implements Runnable {
         brick = new Brick[allBrickColumn];
         //game bar
         gameBar = new GameBar(mainLayout.getContext());
-
+        gameApplication.setGameBar(gameBar);
+        gameApplication.setBallPosition(ballPosition);
+        mainLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (MotionEvent.ACTION_MOVE == motionEvent.getAction()) {
+                    gameBar.changeOnTouch(motionEvent.getX());
+                }
+                return true;
+            }
+        });
         for (int i = 0; i < columnCount; i++) {
             for (int j = 0; j < rowCount; j++) {
                 brick[brickCount] = new Brick(mainLayout.getContext(), i, j, columnCount);
                 brickCount++;
             }
-
         }
     }
     @Override
@@ -49,16 +59,14 @@ public class GamePlayThread implements Runnable {
         while(ballPlay){
             try{
                 gameCanvas = null;
-                synchronized (surfaceHolder){
-                    gameCanvas = surfaceHolder.lockCanvas();
-                    gameCanvas.drawColor(Color.WHITE);
-                    ballPosition.drawBall(gameCanvas);
-                    for (int i = 0; i < brickCount; i++) {
-                        brick[i].drawBrick(gameCanvas);
-                    }
-                    gameBar.drawBar(gameCanvas);
-                }
 
+                gameCanvas = surfaceHolder.lockCanvas();
+                gameCanvas.drawColor(Color.WHITE);
+                ballPosition.drawBall(gameCanvas);
+                for (int i = 0; i < brickCount; i++) {
+                    brick[i].drawBrick(gameCanvas);
+                }
+                gameBar.drawBar(gameCanvas);
             }catch (Exception e){
                 e.printStackTrace();
             } finally {

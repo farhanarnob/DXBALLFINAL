@@ -14,8 +14,6 @@ public class MainLayout extends SurfaceView implements SurfaceHolder.Callback {
 
     GamePlayThread gamePlayThread;
     GameApplication gameApplication;
-    GameBar gameBar;
-    Thread gamePlayThreadHolder;
 
     public MainLayout(Context context) {
         super(context);
@@ -23,10 +21,10 @@ public class MainLayout extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         // initialization
         gameApplication = (GameApplication) ((Activity) context).getApplication();
-        gameBar = new GameBar(getContext());
+
         // game thread for ball
         gamePlayThread = new GamePlayThread(getHolder(), this);
-        gamePlayThreadHolder = new Thread(gamePlayThread);
+        gameApplication.setGamePlayThread(gamePlayThread);
 
     }
 
@@ -38,7 +36,7 @@ public class MainLayout extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
         gamePlayThread.setRunnable(true);
-        gamePlayThreadHolder.start();
+        gamePlayThread.start();
     }
 
     @Override
@@ -47,7 +45,7 @@ public class MainLayout extends SurfaceView implements SurfaceHolder.Callback {
         gamePlayThread.setRunnable(false);
         while (destroyBall) {
             try {
-                gamePlayThreadHolder.join();
+                gamePlayThread.join();
                 destroyBall = false;
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -55,7 +53,4 @@ public class MainLayout extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    public void setGameBarPosition(float x) {
-        gameBar.changeOnTouch(x);
-    }
 }
