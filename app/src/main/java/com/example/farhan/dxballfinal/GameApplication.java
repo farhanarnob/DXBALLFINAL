@@ -16,6 +16,8 @@ public class GameApplication extends Application {
     private Paint blueBrush;
     private Paint blackBrush;
     private boolean noHide;
+    private int count = 0;
+    private int allBrickColumn;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -72,5 +74,16 @@ public class GameApplication extends Application {
 
     public void setNoHide(boolean noHide) {
         this.noHide = noHide;
+    }
+
+    public void BrickCount() {
+        ++count;
+        if (count >= allBrickColumn) {
+            ball.checkGameOver();
+        }
+    }
+
+    public void setAllBrickColumn(int allBrickColumn) {
+        this.allBrickColumn = allBrickColumn;
     }
 }

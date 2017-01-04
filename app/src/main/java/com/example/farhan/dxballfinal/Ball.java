@@ -45,7 +45,7 @@ public class Ball {
         if (xBallPosition <= circleRadius) {
             everyUpdateXChange=-everyUpdateXChange;
         }
-        if (yBallPosition >= (displayHeight - circleRadius - 20)) {
+        if (yBallPosition >= (displayHeight - circleRadius - 14 * density)) {
             gameApplication.getGamePlayThread().setRunnable(false);
             checkGameOver();
         }
@@ -56,7 +56,7 @@ public class Ball {
         yBallPosition += everyUpdateYChange;
     }
 
-    private void checkGameOver() {
+    public void checkGameOver() {
         Intent intent = new Intent(context, GaveOverActivity.class);
         context.startActivity(intent);
     }
@@ -64,9 +64,18 @@ public class Ball {
     private void checkBarCollusion() {
         GameBar gameBar = gameApplication.getGameBar();
         Log.d("Ball", "left: " + gameBar.getLeft() + "right: " + gameBar.getRight() + "bottom: " + gameBar.getBottom() + "xBall: " + xBallPosition + " yBall : " + yBallPosition);
+        float barMiddlePosition = (gameBar.getRight() + gameBar.getLeft()) / 2;
         if (xBallPosition >= gameBar.getLeft() && xBallPosition <= gameBar.getRight()) {
             if (yBallPosition + circleRadius >= gameBar.getBottom()) {
                 everyUpdateYChange = -everyUpdateYChange;
+                if ((xBallPosition - barMiddlePosition) > 40 || (barMiddlePosition - xBallPosition) > 40) {
+                    if (barMiddlePosition > xBallPosition && everyUpdateXChange < 14) {
+                        everyUpdateXChange = everyUpdateXChange + barMiddlePosition / xBallPosition * 7;
+                    }
+                    if (barMiddlePosition < xBallPosition && everyUpdateXChange > -14) {
+                        everyUpdateXChange = everyUpdateXChange - barMiddlePosition / xBallPosition * 7;
+                    }
+                }
                 xBallPosition += everyUpdateXChange;
                 yBallPosition += everyUpdateYChange;
 

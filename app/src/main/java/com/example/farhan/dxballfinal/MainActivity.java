@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
+    GameApplication gameApplication;
     MainLayout mainLayout;
     LinearLayout gameDisplay;
     Button button;
@@ -14,5 +15,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mainLayout = new MainLayout(this);
         setContentView(mainLayout);
+        gameApplication = (GameApplication) getApplication();
     }
 }

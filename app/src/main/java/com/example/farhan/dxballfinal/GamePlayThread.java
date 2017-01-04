@@ -29,8 +29,8 @@ public class GamePlayThread extends Thread {
         this.mainLayout = mainLayout;
         ball = new Ball(mainLayout.getContext());
         brickCount = 0;
-        columnCount = 8;
-        rowCount = 5;
+        columnCount = 2;
+        rowCount = 1;
         allBrickColumn = columnCount * rowCount;
         gameApplication = (GameApplication) ((Activity) mainLayout.getContext()).getApplication();
         brick = new Brick[allBrickColumn];
@@ -53,28 +53,32 @@ public class GamePlayThread extends Thread {
                 brickCount++;
             }
         }
+        gameApplication.setAllBrickColumn(allBrickColumn);
     }
     @Override
     public void run() {
         while(ballPlay){
-            try {
-                gameCanvas = null;
+            synchronized (surfaceHolder) {
+                try {
+                    gameCanvas = null;
 
-                gameCanvas = surfaceHolder.lockCanvas();
-                gameCanvas.drawColor(Color.WHITE);
-                for (int i = 0; i < brickCount; i++) {
-                    brick[i].drawBrick(gameCanvas);
-                }
-                ball.drawBall(gameCanvas);
-                gameBar.drawBar(gameCanvas);
-                gameApplication.setNoHide(false);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (gameCanvas != null) {
-                    surfaceHolder.unlockCanvasAndPost(gameCanvas);
+                    gameCanvas = surfaceHolder.lockCanvas();
+                    gameCanvas.drawColor(Color.WHITE);
+                    for (int i = 0; i < brickCount; i++) {
+                        brick[i].drawBrick(gameCanvas);
+                    }
+                    ball.drawBall(gameCanvas);
+                    gameBar.drawBar(gameCanvas);
+                    gameApplication.setNoHide(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (gameCanvas != null) {
+                        surfaceHolder.unlockCanvasAndPost(gameCanvas);
+                    }
                 }
             }
+
         }
     }
     public void setRunnable(Boolean ballPlay){

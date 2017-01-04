@@ -14,7 +14,10 @@
 
         </activity>
         <activity android:name=".GaveOverActivity">
-
+            <intent-filter>
+                <action android:name="com.error.activity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".StartActivity">
             <intent-filter>

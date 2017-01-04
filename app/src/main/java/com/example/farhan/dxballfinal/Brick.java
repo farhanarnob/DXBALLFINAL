@@ -23,7 +23,7 @@ public class Brick {
         this.column = column;
         this.row = row;
         padding = 1;
-        firstHundredMove = 100;
+        firstHundredMove = 20;
         collusionCheck = false;
         this.allBrickColumn = allBrickColumn;
         density = context.getResources().getDisplayMetrics().density;
@@ -62,6 +62,7 @@ public class Brick {
                 paint.setColor(Color.TRANSPARENT);
                 gameApplication.getBall().setEveryUpdateYChange();
                 gameApplication.setNoHide(true);
+                gameApplication.BrickCount();
             }
         }
     }
