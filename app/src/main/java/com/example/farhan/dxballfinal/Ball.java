@@ -12,7 +12,7 @@ import android.util.Log;
  */
 
 public class Ball {
-    boolean firstTime = true;
+    private boolean firstTime = true;
     private GameApplication gameApplication;
     private float xBallPosition, yBallPosition, circleRadius, everyUpdateXChange, everyUpdateYChange, displayWidth, displayHeight, density;
     private Context context;
@@ -45,7 +45,7 @@ public class Ball {
         if (xBallPosition <= circleRadius) {
             everyUpdateXChange=-everyUpdateXChange;
         }
-        if (yBallPosition >= (displayHeight - circleRadius)) {
+        if (yBallPosition >= (displayHeight - circleRadius - 20)) {
             gameApplication.getGamePlayThread().setRunnable(false);
             checkGameOver();
         }
