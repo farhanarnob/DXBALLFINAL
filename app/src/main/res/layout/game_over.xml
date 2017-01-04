@@ -4,17 +4,45 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:id="@+id/gave_over"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="12"
         android:gravity="center"
-        android:text="GAME OVER!"
-        android:textAlignment="center" />
+        android:orientation="vertical"
+        android:text="to start game, press start!"
+        android:textAlignment="center">
+
+        <EditText
+            android:id="@+id/column_game_over"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="column" />
+
+        <EditText
+            android:id="@+id/row_game_over"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="row" />
+    </LinearLayout>
 
     <Button
-        android:id="@+id/restart"
+        android:id="@+id/restart_buttton"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
