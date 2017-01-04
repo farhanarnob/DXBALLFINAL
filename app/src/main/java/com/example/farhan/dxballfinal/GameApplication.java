@@ -11,11 +11,11 @@ import android.graphics.Paint;
 public class GameApplication extends Application {
     GamePlayThread gamePlayThread;
     GameBar gameBar;
-    BallPosition ballPosition;
+    Ball ball;
     private Paint redBrush;
     private Paint blueBrush;
     private Paint blackBrush;
-
+    private boolean noHide;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,6 +28,7 @@ public class GameApplication extends Application {
         blackBrush = new Paint();
         blackBrush.setColor(Color.BLACK);
         blackBrush.setStyle(Paint.Style.FILL);
+        noHide = false;
     }
     public Paint getRedBrush(){
         return redBrush;
@@ -57,11 +58,19 @@ public class GameApplication extends Application {
         this.gamePlayThread = gamePlayThread;
     }
 
-    public BallPosition getBallPosition() {
-        return ballPosition;
+    public Ball getBall() {
+        return ball;
     }
 
-    public void setBallPosition(BallPosition ballPosition) {
-        this.ballPosition = ballPosition;
+    public void setBall(Ball ball) {
+        this.ball = ball;
+    }
+
+    public boolean isNoHide() {
+        return noHide;
+    }
+
+    public void setNoHide(boolean noHide) {
+        this.noHide = noHide;
     }
 }

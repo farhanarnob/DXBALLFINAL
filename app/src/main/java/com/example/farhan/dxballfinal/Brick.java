@@ -15,12 +15,16 @@ public class Brick {
     GameApplication gameApplication;
     float width, height, column, row, padding, allBrickColumn, density, left, top, right, bottom;
     Paint paint;
+    private int firstHundredMove;
+    private boolean collusionCheck;
     public Brick(Context context, int column, int row, int allBrickColumn) {
 
         gameApplication = (GameApplication) ((Activity) context).getApplication();
         this.column = column;
         this.row = row;
         padding = 1;
+        firstHundredMove = 100;
+        collusionCheck = false;
         this.allBrickColumn = allBrickColumn;
         density = context.getResources().getDisplayMetrics().density;
         paint = new Paint();
@@ -36,19 +40,28 @@ public class Brick {
         top = row * height + padding;
         right = column * width + width - padding;
         bottom = row * height + height - padding;
-        hideBrickCheck();
+        if (collusionCheck && (paint.getColor() != Color.TRANSPARENT) && gameApplication.isNoHide() == false) {
+            hideBrickCheck();
+        } else {
+            if (--firstHundredMove < 0) {
+                collusionCheck = true;
+            }
+        }
+
 //        Log.d("Brick","left : "+left+"top: "+top+"right: "+right+"bottom: "+bottom+"column "+column+"row: "+row);
         gameCanvas.drawRoundRect(left, top, right, bottom, 5 * density, 5 * density, paint);
     }
 
     public void hideBrickCheck() {
-        float ballXPosition = gameApplication.getBallPosition().getXBallPosition();
-        float ballYPosition = gameApplication.getBallPosition().getYBallPosition();
-        float circleRadius = gameApplication.getBallPosition().getCircleRadius();
-        if (ballXPosition - circleRadius >= left && ballXPosition + circleRadius <= right) {
-            if (ballYPosition <= top + circleRadius) {
+        float ballYPosition = gameApplication.getBall().getYBallPosition();
+        float ballXPosition = gameApplication.getBall().getXBallPosition();
+        float ballCircleRadius = gameApplication.getBall().getCircleRadius();
+
+        if (((ballXPosition + ballCircleRadius) > (left)) && ((ballXPosition - ballCircleRadius) < (right))) {
+            if (((ballYPosition - ballCircleRadius) < bottom) && ((ballYPosition + ballCircleRadius) > top)) {
                 paint.setColor(Color.TRANSPARENT);
-                gameApplication.getBallPosition().setEveryUpdateYChange();
+                gameApplication.getBall().setEveryUpdateYChange();
+                gameApplication.setNoHide(true);
             }
         }
     }

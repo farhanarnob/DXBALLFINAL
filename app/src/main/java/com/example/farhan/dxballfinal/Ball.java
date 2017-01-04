@@ -11,12 +11,13 @@ import android.util.Log;
  * Created by ${farhanarnob} on ${06-Oct-16}.
  */
 
-public class BallPosition {
+public class Ball {
     boolean firstTime = true;
     private GameApplication gameApplication;
     private float xBallPosition, yBallPosition, circleRadius, everyUpdateXChange, everyUpdateYChange, displayWidth, displayHeight, density;
     private Context context;
-    public BallPosition(Context context){
+
+    public Ball(Context context) {
         this.context = context;
         xBallPosition = 250;
         yBallPosition = 650;
@@ -62,12 +63,13 @@ public class BallPosition {
 
     private void checkBarCollusion() {
         GameBar gameBar = gameApplication.getGameBar();
-        Log.d("BallPosition", "left: " + gameBar.getLeft() + "right: " + gameBar.getRight() + "bottom: " + gameBar.getBottom() + "xBall: " + xBallPosition + " yBall : " + yBallPosition);
+        Log.d("Ball", "left: " + gameBar.getLeft() + "right: " + gameBar.getRight() + "bottom: " + gameBar.getBottom() + "xBall: " + xBallPosition + " yBall : " + yBallPosition);
         if (xBallPosition >= gameBar.getLeft() && xBallPosition <= gameBar.getRight()) {
             if (yBallPosition + circleRadius >= gameBar.getBottom()) {
                 everyUpdateYChange = -everyUpdateYChange;
                 xBallPosition += everyUpdateXChange;
                 yBallPosition += everyUpdateYChange;
+
             }
         }
 
@@ -86,7 +88,10 @@ public class BallPosition {
     }
 
     public void setEveryUpdateYChange() {
-        everyUpdateYChange -= everyUpdateYChange;
-        yBallPosition -= everyUpdateYChange;
+        everyUpdateYChange = -everyUpdateYChange;
+    }
+
+    public void setEveryUpdateXChange() {
+        everyUpdateXChange = -everyUpdateXChange;
     }
 }

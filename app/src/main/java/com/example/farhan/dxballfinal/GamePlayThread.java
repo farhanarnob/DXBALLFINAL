@@ -16,7 +16,7 @@ public class GamePlayThread extends Thread {
     private GameBar gameBar;
     private Brick brick[];
     private Canvas gameCanvas;
-    private BallPosition ballPosition;
+    private Ball ball;
     private GameApplication gameApplication;
     private int rowCount, columnCount, allBrickColumn, brickCount;
     private SurfaceHolder surfaceHolder;
@@ -27,9 +27,9 @@ public class GamePlayThread extends Thread {
     public GamePlayThread(SurfaceHolder surfaceHolder, final MainLayout mainLayout) {
         this.surfaceHolder = surfaceHolder;
         this.mainLayout = mainLayout;
-        ballPosition = new BallPosition(mainLayout.getContext());
+        ball = new Ball(mainLayout.getContext());
         brickCount = 0;
-        columnCount = 5;
+        columnCount = 8;
         rowCount = 5;
         allBrickColumn = columnCount * rowCount;
         gameApplication = (GameApplication) ((Activity) mainLayout.getContext()).getApplication();
@@ -37,7 +37,7 @@ public class GamePlayThread extends Thread {
         //game bar
         gameBar = new GameBar(mainLayout.getContext());
         gameApplication.setGameBar(gameBar);
-        gameApplication.setBallPosition(ballPosition);
+        gameApplication.setBall(ball);
         mainLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -57,20 +57,21 @@ public class GamePlayThread extends Thread {
     @Override
     public void run() {
         while(ballPlay){
-            try{
+            try {
                 gameCanvas = null;
 
                 gameCanvas = surfaceHolder.lockCanvas();
                 gameCanvas.drawColor(Color.WHITE);
-                ballPosition.drawBall(gameCanvas);
                 for (int i = 0; i < brickCount; i++) {
                     brick[i].drawBrick(gameCanvas);
                 }
+                ball.drawBall(gameCanvas);
                 gameBar.drawBar(gameCanvas);
-            }catch (Exception e){
+                gameApplication.setNoHide(false);
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                if(gameCanvas!=null){
+                if (gameCanvas != null) {
                     surfaceHolder.unlockCanvasAndPost(gameCanvas);
                 }
             }
