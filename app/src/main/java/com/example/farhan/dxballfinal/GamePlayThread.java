@@ -39,6 +39,7 @@ public class GamePlayThread extends Thread {
         gameBar = new GameBar(mainLayout.getContext());
         gameApplication.setGameBar(gameBar);
         gameApplication.setBall(ball);
+        gameApplication.setAllBrickColumn(allBrickColumn);
         mainLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -54,7 +55,7 @@ public class GamePlayThread extends Thread {
                 brickCount++;
             }
         }
-        gameApplication.setAllBrickColumn(allBrickColumn);
+
     }
     @Override
     public void run() {

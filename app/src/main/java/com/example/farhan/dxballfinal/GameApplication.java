@@ -90,6 +90,7 @@ public class GameApplication extends Application {
 
 
     public void setColumnRow(int column, int row) {
+        count = 0;
         this.column = column;
         this.row = row;
     }
