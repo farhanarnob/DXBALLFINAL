@@ -29,10 +29,11 @@ public class GamePlayThread extends Thread {
         this.mainLayout = mainLayout;
         ball = new Ball(mainLayout.getContext());
         brickCount = 0;
-        columnCount = 2;
-        rowCount = 1;
-        allBrickColumn = columnCount * rowCount;
+
         gameApplication = (GameApplication) ((Activity) mainLayout.getContext()).getApplication();
+        columnCount = gameApplication.getColumn();
+        rowCount = gameApplication.getRow();
+        allBrickColumn = columnCount * rowCount;
         brick = new Brick[allBrickColumn];
         //game bar
         gameBar = new GameBar(mainLayout.getContext());

@@ -12,6 +12,7 @@ public class GameApplication extends Application {
     GamePlayThread gamePlayThread;
     GameBar gameBar;
     Ball ball;
+    private int row = 3, column = 8;
     private Paint redBrush;
     private Paint blueBrush;
     private Paint blackBrush;
@@ -85,5 +86,19 @@ public class GameApplication extends Application {
 
     public void setAllBrickColumn(int allBrickColumn) {
         this.allBrickColumn = allBrickColumn;
+    }
+
+
+    public void setColumnRow(int column, int row) {
+        this.column = column;
+        this.row = row;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
     }
 }

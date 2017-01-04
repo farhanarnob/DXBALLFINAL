@@ -57,7 +57,7 @@ public class Ball {
     }
 
     public void checkGameOver() {
-        Intent intent = new Intent(context, GaveOverActivity.class);
+        Intent intent = new Intent(context, StartActivity.class);
         context.startActivity(intent);
     }
 
